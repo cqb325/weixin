@@ -1,0 +1,13 @@
+{
+  "button":[
+    {
+      "type":"view",
+      "name":"主页",
+      "url":"http://cqb325.github.io"
+    },
+    {
+      "type":"view",
+      "name":"绑定2",
+      "url":"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx4fcae70b644f4bfd&redirect_uri=http%3A%2F%2Fcqb325.ngrok.cc%2Fweixin%2FbindTel.html&response_type=code&scope=snsapi_base&state=123#wechat_redirect"
+    }]
+}
