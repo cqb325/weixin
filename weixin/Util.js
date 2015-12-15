@@ -5,8 +5,11 @@
 const token = "840815";
 var CREAT_MENU_URL = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=";
 
+var WXCONFIG = require("../config").WX;
+
 var sha1 = require("sha1"),
     FileUtil = require("./FileUtil"),
+    HttpsUtil = require("./HttpsUtil"),
     http = require("http"),
     https = require("https"),
     url = require("url"),
@@ -44,6 +47,30 @@ module.exports = {
                 }, null);
             }
         }, this);
+    },
+
+    /**
+     * 根据网页授权的AccessToken获取openid
+     * @param code
+     * @param callback
+     * @param scope
+     */
+    getOpenIdByPageAccessToken: function(code, callback, scope){
+        var url = WXCONFIG.PAGE_ACCESS_TOKEN_URL.replace("CODE", code);
+        url = url.replace("APPID", WXCONFIG.APPID);
+        url = url.replace("SECRET", WXCONFIG.APPSECRET);
+        HttpsUtil.httpsPostData(url, "", "POST", function(ret){
+            if(ret) {
+                var json = JSON.parse(ret);
+                if(json.openid){
+                    callback.call(scope, json.openid);
+                }else{
+                    callback.call(scope, null);
+                }
+            }else{
+                callback.call(scope, null);
+            }
+        }, null);
     },
 
     /**

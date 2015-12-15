@@ -13,6 +13,7 @@
     "ejs": "~2.3.3",
     "eventproxy": "~0.3.4",
     "express": "~4.13.1",
+    "express-session": "^1.12.1",
     "less-middleware": "^2.0.1",
     "markdown-it": "~4.4.0",
     "mockjs": "~0.1.10",

@@ -27,9 +27,11 @@ module.exports = {
 
     "/bindTel\.html": function(){
         var code = this.get("code");
+        console.log(code);
         var state = this.get("state");
 
-        this.res.json({code: code, state: state});
-        //WeiXinUtil.getCode();
+        WeiXinUtil.getOpenIdByPageAccessToken(code, function(openid){
+            this.res.json({openid: openid});
+        }, this);
     }
 };
