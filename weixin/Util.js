@@ -13,6 +13,7 @@ var sha1 = require("sha1"),
     http = require("http"),
     https = require("https"),
     url = require("url"),
+    uuid = require("uuid"),
     AccessToken = require("./AccessToken");
 
 module.exports = {
@@ -86,6 +87,36 @@ module.exports = {
             }else{
                 callback.call(scope, null);
             }
+        }, null);
+    },
+
+    /**
+     * 获取JS API 签名
+     * @param url
+     * @param callback
+     * @param scope
+     */
+    getJsSDKSignature: function(url, callback, scope){
+        AccessToken.getJsSDKTicket(function(ticket){
+            var noncestr = uuid.v1();
+            var noncestrStr = "noncestr="+noncestr;
+            var time = new Date().getTime();
+            var timestamp = "timestamp="+time;
+            url = "url="+url;
+            var jsapi_ticket = "jsapi_ticket="+ticket;
+
+            var arr = [noncestrStr, timestamp, url, jsapi_ticket];
+            arr.sort();
+
+            var str = arr.join("&");
+            var signature = sha1(str);
+
+            callback.call(scope, {
+                appId: WXCONFIG.APPID,
+                timestamp: time,
+                nonceStr: noncestr,
+                signature: signature
+            });
         }, null);
     },
 
