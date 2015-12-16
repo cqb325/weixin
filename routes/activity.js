@@ -9,7 +9,10 @@ module.exports = {
      * 绑定手机号码
      */
     "/bindTel\.html": function(){
+        var url = "http://" + this.req.headers["host"] + this.req.originalUrl;
 
-        this.forward("bindTel");
+        WeiXinUtil.getJsSDKSignature(url, function(config){
+            this.forward("bindTel", config);
+        }, this);
     }
 };
