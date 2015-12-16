@@ -34,9 +34,9 @@ $(function(){
         submitBtn();
     });
 
-//        $('#success-btn').on('click',function(){
-//            wx.closeWindow();
-//        });
+    $('#success-btn').on('click',function(){
+        wx.closeWindow();
+    });
 
     failBtn();
 
@@ -68,13 +68,13 @@ $(function(){
                 dataType: 'json',
                 data: {tel: tel,code: code},
                 success: function(data) {
-                    if (data.isUsed) {
+                    if (data.binded) {
                         $('#isUsed').modal('show');
                         $('#clear').on('click', function() {
                             window.location.reload();
                         });
                     } else {
-                        if (data.bind) {
+                        if (data.success) {
                             showDialogContent('success');
                         } else {
                             showDialogContent('failure');
