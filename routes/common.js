@@ -10,7 +10,9 @@ module.exports = {
 
         console.log(tel, code, openid);
 
-        this.res.json({bind: true});
-
+        this.User.saveUser(tel, openid, function(ret){
+            console.log(ret);
+            this.res.json(ret);
+        }, this);
     }
 };
