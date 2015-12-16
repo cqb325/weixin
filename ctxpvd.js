@@ -13,7 +13,7 @@ var WeiXinUtil = require("./weixin/Util");
 //数据库
 var db = null;
 try {
-    require('./database/database');
+    db = require('./database/database');
 }catch(e){
 
 }
@@ -144,17 +144,22 @@ function initRouters(app){
      */
     app.use('/activity/*',function(req, res, next){
         var openid = req.session.openid;
+        console.log("openid exist ? " + openid);
         if(openid){
             next();
         }else {
             var queries = querystring.parse(url.parse(req.url).query);
+            console.log("重定向过来的请求");
             if (queries["state"]) {
                 var code = queries["code"];
+                console.log("code: "+code);
                 WeiXinUtil.getOpenIdByPageAccessToken(code, function(openid){
+                    console.log("openid: "+openid);
                     req.session.openid = openid;
                     next();
                 }, null);
             } else {
+                console.log("进行重定向");
                 var redirect_url = encodeURIComponent("http://" + req.headers["host"] + req.originalUrl);
                 var ret = WeiXinUtil.getURL(req, redirect_url);
                 if (ret) {
