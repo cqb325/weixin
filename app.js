@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var lessMiddleware = require('less-middleware');
 var ctxpvd = require('./ctxpvd');
 var session = require('express-session');
+var RedisStore = require('connect-redis')(session);
 
 var app = express();
 
@@ -31,7 +32,12 @@ app.use(function (req, res, next) {
   next();
 });
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(session({resave: false, saveUninitialized: false, secret: 'cqb325', cookie: { maxAge: 1800000 }}));
+app.use(session({store: new RedisStore({
+  port: "6379",
+  host: "localhost",
+  db: 0,
+  prefix: "weixinSession:"
+}), secret: 'cqb325',cookie: {maxAge:1800000}, resave: false, saveUninitialized: false}));
 
 
 //app.use('/admin.*',function(req, res, next) {
