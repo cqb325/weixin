@@ -8,6 +8,7 @@ var url = require('url');
 var express = require('express');
 var ROUTERSMAP = {};
 var conf = require('./config');
+var WeiXinUtil = require("./weixin/Util");
 
 //数据库
 var db = null;
@@ -137,6 +138,35 @@ function initRouters(app){
             next();
         }
     });
+
+    /**
+     * 微信菜单进入的进行授权判断
+     */
+    app.use('/activity/*',function(req, res, next){
+        var openid = req.session.openid;
+        if(openid){
+            next();
+        }else {
+            var queries = querystring.parse(url.parse(req.url).query);
+            if (queries["state"]) {
+                var code = queries["code"];
+                WeiXinUtil.getOpenIdByPageAccessToken(code, function(openid){
+                    req.session.openid = openid;
+                    next();
+                }, null);
+            } else {
+                var redirect_url = encodeURIComponent("http://" + req.headers["host"] + req.originalUrl);
+                var ret = WeiXinUtil.getURL(req, redirect_url);
+                if (ret) {
+                    res.redirect(ret);
+                } else {
+                    res.render("404");
+                }
+            }
+        }
+    });
+
+
     var files = fs.readdirSync(path.join(__dirname, 'routes'));
     files.forEach(function(file){
         var name = path.basename(file, '.js');
