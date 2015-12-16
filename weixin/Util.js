@@ -50,6 +50,22 @@ module.exports = {
     },
 
     /**
+     *
+     * @param req
+     * @param redirect_url
+     */
+    getURL: function(req, redirect_url){
+
+        //从微信服务重定向过来的
+        var url = WXCONFIG.PAGE_CODE_URL.replace("APPID", WXCONFIG.APPID);
+        url = url.replace("REDIRECT_URI", redirect_url);
+        url = url.replace("SCOPE", "snsapi_base");
+        url = url.replace("STATE", "1");
+
+        return url;
+    },
+
+    /**
      * 根据网页授权的AccessToken获取openid
      * @param code
      * @param callback
