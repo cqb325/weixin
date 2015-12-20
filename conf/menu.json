@@ -7,7 +7,7 @@
     },
     {
       "type":"view",
-      "name":"绑定1",
+      "name":"绑定",
       "url":"http://cqb325.ngrok.cc/activity/bindTel.html"
     }]
 }

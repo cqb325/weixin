@@ -3,19 +3,35 @@
  */
 
 var WeiXinUtil = require("../weixin/Util");
+var MessageHandler = require("../weixin/MessageHandler");
 
 module.exports = {
 
     "/index\.html": function() {
-        var signature = this.get("signature");
-        var timestamp = this.get("timestamp");
-        var nonce = this.get("nonce");
-        var echostr = this.get("echostr");
 
-        if(WeiXinUtil.checkSignature(signature, timestamp, nonce)){
-            this.res.end(echostr);
-        }else{
-            this.res.end("hello");
+        if(this.req.method === "GET"){
+            var signature = this.get("signature");
+            var timestamp = this.get("timestamp");
+            var nonce = this.get("nonce");
+            var echostr = this.get("echostr");
+
+            if(WeiXinUtil.checkSignature(signature, timestamp, nonce)){
+                this.res.end(echostr);
+            }else{
+                this.res.end("hello");
+            }
+        }else {
+            var body = "";
+            this.req.on('data', function (chunk) {
+                body += chunk;
+            });
+
+            var scopes = this;
+            this.req.on('end', function () {
+                MessageHandler.acceptMessage(body, function(resMsg){
+                    this.res.end(resMsg);
+                }, scopes);
+            });
         }
     },
 

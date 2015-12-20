@@ -25,6 +25,7 @@
     "sequelize": "~3.5.1",
     "serve-favicon": "~2.3.0",
     "sha1": "^1.1.1",
+    "simple-xml2json": "^1.2.3",
     "uuid": "~2.0.1"
   },
   "description": "Node.js weixin program",
