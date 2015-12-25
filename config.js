@@ -14,4 +14,9 @@ exports.WX = {
     JS_SDK_TICKET_URL: "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=ACCESS_TOKEN&type=jsapi"
 };
 
+exports.MGS = {
+    subscribe: "欢迎您关注游泳的鱼!",
+    hello: "您好!"
+};
+
 exports.EXCEPTURLS = ["/*"];

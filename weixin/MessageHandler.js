@@ -2,6 +2,7 @@
  * Created by qingbiao on 2015-12-20.
  */
 
+var WXConfig = require("../config");
 module.exports = {
     /**
      * 处理msgXML
@@ -14,37 +15,41 @@ module.exports = {
         var json     = xml2json.parser( xml );
         var msgObj = json.xml;
 
+        console.log(msgObj);
         if(msgObj.msgtype === "event"){
             if(msgObj.event === "unsubscribe"){
                 console.log("取消关注");
+                callback.call(scope, this.createResTextMsg(msgObj, ""));
             }
             if(msgObj.event === "subscribe"){
-                console.log("关注");
+                callback.call(scope, this.createResTextMsg(msgObj, WXConfig.MGS.subscribe));
             }
         }
 
         //文本消息
         if(msgObj.msgtype === "text"){
-            var resMsg = this.createResTextMsg(msgObj);
-            callback.call(scope, resMsg);
+            if(msg.content == "1") {
+                callback.call(scope, this.createResTextMsg(msgObj, WXConfig.MGS.hello));
+            }else{
+                callback.call(scope, "");
+            }
         }
     },
 
     /**
      *
      * @param msg
+     * @param content
      */
-    createResTextMsg: function(msg){
+    createResTextMsg: function(msg, content){
         var res = {};
-        if(msg.content == "1"){
-            res.ToUserName = msg.fromusername;
-            res.FromUserName  = msg.tousername;
-            res.CreateTime = new Date().getTime();
-            res.MsgType = 'text';
-            res.Content = "您好";
+        res.ToUserName = msg.fromusername;
+        res.FromUserName  = msg.tousername;
+        res.CreateTime = new Date().getTime();
+        res.MsgType = 'text';
+        res.Content = content;
 
-            return this.JS2XML(res);
-        }
+        return this.JS2XML(res);
     },
 
     /**

@@ -63,7 +63,7 @@ module.exports = {
                 var json = JSON.parse(ret);
                 if(json.access_token){
                     var now = new Date();
-                    now.setMinutes(now.getMinutes() + json.expires_in);
+                    now.setSeconds(now.getSeconds() + json.expires_in);
                     json.time = now;
                     FileUtil.writeFile(ACCESS_TOKEN_FILE, JSON.stringify(json));
 
@@ -121,7 +121,7 @@ module.exports = {
                         var json = JSON.parse(ret);
                         if(json.ticket){
                             var now = new Date();
-                            now.setMinutes(now.getMinutes() + json.expires_in);
+                            now.setSeconds(now.getSeconds() + json.expires_in);
                             json.time = now;
                             FileUtil.writeFile(fileURI, JSON.stringify(json));
                             callback.call(scope, json.ticket);

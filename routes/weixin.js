@@ -26,11 +26,11 @@ module.exports = {
                 body += chunk;
             });
 
-            var scopes = this;
+            var scope = this;
             this.req.on('end', function () {
                 MessageHandler.acceptMessage(body, function(resMsg){
                     this.res.end(resMsg);
-                }, scopes);
+                }, scope);
             });
         }
     },
