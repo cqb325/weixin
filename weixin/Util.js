@@ -2,7 +2,6 @@
  * Created by cqb32_000 on 2015-12-12.
  */
 
-const token = "840815";
 var CREAT_MENU_URL = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=";
 
 var WXCONFIG = require("../config").WX;
@@ -26,7 +25,7 @@ module.exports = {
      * @returns {boolean}
      */
     checkSignature: function(signature, timestamp, nonce){
-        var arr = [token, timestamp, nonce];
+        var arr = [WXCONFIG.TOKEN, timestamp, nonce];
         arr.sort();
 
         var content = arr.join("");

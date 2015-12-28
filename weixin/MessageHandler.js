@@ -28,7 +28,7 @@ module.exports = {
 
         //文本消息
         if(msgObj.msgtype === "text"){
-            if(msg.content == "1") {
+            if(msgObj.content == "1") {
                 callback.call(scope, this.createResTextMsg(msgObj, WXConfig.MGS.hello));
             }else{
                 callback.call(scope, "");

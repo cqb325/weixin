@@ -2,12 +2,10 @@
  * Created by cqb32_000 on 2015-12-12.
  */
 
-const APPID = "wx4fcae70b644f4bfd";
-const APPSECRET = "d4624c36b6795d1d99dcf0547af5443d";
-const ACCESS_TOKEN_URL = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid="+APPID+"&secret="+APPSECRET;
-const ACCESS_TOKEN_FILE = __dirname + "/../conf/accessToken";
-
 var WXCONFIG = require("../config").WX;
+
+const ACCESS_TOKEN_URL = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid="+WXCONFIG.APPID+"&secret="+WXCONFIG.APPSECRET;
+const ACCESS_TOKEN_FILE = __dirname + "/../conf/accessToken";
 
 var fs = require("fs"),
     FileUtil = require("./FileUtil"),
