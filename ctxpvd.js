@@ -162,6 +162,7 @@ function initRouters(app){
                 console.log("进行重定向");
                 var redirect_url = encodeURIComponent("http://" + req.headers["host"] + req.originalUrl);
                 var ret = WeiXinUtil.getURL(req, redirect_url);
+                console.log(ret);
                 if (ret) {
                     res.redirect(ret);
                 } else {

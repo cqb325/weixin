@@ -3,11 +3,11 @@
     {
       "type":"view",
       "name":"主页",
-      "url":"http://cqb325.github.io"
+      "url":"https://cqb325.github.io"
     },
     {
       "type":"view",
       "name":"绑定",
-      "url":"http://cqb325.ngrok.cc/activity/bindTel.html"
+      "url":"http://weixin.cqb325.cn/activity/bindTel.html"
     }]
 }

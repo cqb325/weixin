@@ -38,6 +38,12 @@
 <div class="operate-box btn-disabled" id="submit-btn">
     <a class="btn border-radius" role="button">绑 定</a>
 </div>
+<div>
+    <a class="btn border-radius" role="button" id="chooseImage">选择图片</a>
+</div>
+<div>
+    <a class="btn border-radius" role="button" id="scan">扫一扫</a>
+</div>
 <div id="isUsed" class="modal fade" data-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -84,20 +90,47 @@
     var ctx = '';
 </script>
 <script src="/js/bindTel.js"></script>
-<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 <script>
     wx.config({
-        debug: false,
+        debug: true,
         appId: "<%= appId %>",
         timestamp: "<%= timestamp %>",
         nonceStr: "<%= nonceStr %>",
         signature: "<%= signature %>",
-        jsApiList: ["closeWindow"]
+        jsApiList: ["closeWindow","chooseImage"]
     });
 
     wx.ready(function(){
 
     });
+
+    $("#chooseImage").on("click", function(){
+        wx.chooseImage({
+            count: 1, // 默认9
+            sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+            sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+            success: function (res) {
+                var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+                wx.previewImage({
+                    current: localIds[0], // 当前显示图片的http链接
+                    urls: localIds // 需要预览的图片http链接列表
+                });
+            }
+        });
+    });
+
+    $("#scan").on("click", function(){
+        wx.scanQRCode({
+            needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+            scanType: ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
+            success: function (res) {
+                var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+                alert(result);
+            }
+        });
+    });
+
 </script>
 </body>
 </html>

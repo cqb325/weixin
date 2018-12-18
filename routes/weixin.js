@@ -49,5 +49,18 @@ module.exports = {
         WeiXinUtil.getOpenIdByPageAccessToken(code, function(openid){
             this.res.json({openid: openid});
         }, this);
+    },
+
+    "/hello/:name": function(){
+        var name = this.req.param("name");
+        this.res.end("hello "+ name);
+    },
+    "/hello": function(){
+        var name = this.get("name");
+        if(name) {
+            this.res.end("hello " + name +"!");
+        }else{
+            this.res.end("hello World!");
+        }
     }
 };
